@@ -18,7 +18,7 @@ export default function NewsList(){
         return list;
     }; */
     const posts = hackerNews.hits
-    console.log(posts);
+    //console.log(posts);
 
     const wrapPost = ({objectID, title}) => <p key={objectID}>{title}</p>
 
