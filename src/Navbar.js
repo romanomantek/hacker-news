@@ -1,4 +1,4 @@
-import hackernews from './hackernews';
+import React from 'react';
 
 export default function Navbar(){
     const search = () =>{
