@@ -20,10 +20,13 @@ export default function NewsList(){
     const posts = hackerNews.hits
     console.log(posts);
 
+    const wrapPost = ({objectID, title}) => <p key={objectID}>{title}</p>
+
     return(
         <>
             <div className="Titles">
-                {posts.map((e) => <p key={e.objectID}>{e.title}</p>)}
+                {/* {posts.map((e) => <p key={e.objectID}>{e.title}</p>) */}
+                {posts.map(wrapPost)}
             </div>
             
         </>
