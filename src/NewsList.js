@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import hackerNews from './hackerNews';
 
 export default function NewsList(){
@@ -17,9 +17,11 @@ export default function NewsList(){
         }
         return list;
     }; */
-    const posts = hackerNews.hits
-    //console.log(posts);
-
+    // useState for variable input of API
+    const [posts, setPosts] = useState(hackerNews.hits);
+    
+    console.log(posts);
+    // wrap information of an object in p-tag
     const wrapPost = ({objectID, title}) => <p key={objectID}>{title}</p>
 
     return(
