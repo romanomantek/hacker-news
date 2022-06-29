@@ -4,7 +4,7 @@ import hackerNews from './hackerNews';
 export default function NewsList(){
      // useState for variable input of API
     
-    const [posts, setPosts] = useState(hackerNews.hits);
+    const [posts, setPosts] = useState([]);
     
     useEffect(() => {
         const apiUrl = "http://hn.algolia.com/api/v1/search_by_date?tags=story";
@@ -29,11 +29,9 @@ export default function NewsList(){
             return (
                 <div className="newsRow" key={e.objectID}>
                     <p className="news">
-                        <strong className="newsTitle"> {e.title} - </strong>
-                        <a className="newsUrl" href={e.url}> {hostname} </a>
+                        <strong className="newsTitle"> {e.title}</strong>
                         <br />
-                        <small className="newsAuthor"> Author: {e.author} </small>
-                        <small className="newsOld"> Exists: {calcDays(e.created_at)} days</small>
+                        <small className="newsAuthor"> Author: {e.author} Exists: {calcDays(e.created_at)} days  <a className="newsUrl" href={e.url}> {hostname} </a></small>
                     </p>
                 </div>
             )
@@ -41,13 +39,9 @@ export default function NewsList(){
     }
 
     return(
-        <>
             <div className="titles">
                 {/* {posts.map((e) => <p key={e.objectID}>{e.title}</p>)} */}
                 {posts.map(wrapPost)}
             </div>
-            
-        </>
-
     );
 }
