@@ -2,25 +2,12 @@ import React, { useState, useEffect } from 'react';
 import {getNews} from "./apiFetcher.js"
 // import hackerNews from './hackerNews';
 
-export default function NewsList(arrayOfNews=[]){
-     // useState for variable input of API
-    const [posts, setPosts] = useState([arrayOfNews]);
+export default function NewsList({arrayOfNews=[]}){
+    console.log(arrayOfNews)
+    // useState for variable input of API
     
-    useEffect(() => {
-        if(arrayOfNews!==[]){
-            getNews().then( e => setPosts(e))
-        } else {
-            setPosts(arrayOfNews);
-        }
-        
-        /* 
-        const apiUrl = "http://hn.algolia.com/api/v1/search_by_date?tags=story";
-        fetch(apiUrl)
-            .then((response) => response.json())
-            .then((resJson) => setPosts(resJson.hits))
-            .catch((err) => alert(`API load failed (${err})`));
-        */
-    },[]);
+    //getNews().then( e => setPosts(e))
+    
     //const posts = hackerNews.hits;
     const getExist = (created_at) => {
         const created = new Date(created_at);
@@ -38,7 +25,7 @@ export default function NewsList(arrayOfNews=[]){
     }
     // wrap information of an object in p-tag
     const wrapPost = (e) => {
-        if (e.title) {
+        
             const hostname = e.url ? new URL(e.url).hostname : "";
             // return wrapped information in a div
             return (
@@ -46,17 +33,17 @@ export default function NewsList(arrayOfNews=[]){
                     <p className="news">
                         <strong className="newsTitle"> {e.title}</strong>
                         <br />
-                        <small className="newsAuthor"> Author: {e.author} - Exists: {getExist(e.created_at)} <a className="newsUrl" href={e.url}> - {hostname} </a></small>
+                        <small className="newsAuthor"> Author: {e.author} - Exists: {getExist(e.created_at)} <a className="newsUrl" href={e.url}> {hostname} </a></small>
                     </p>
                 </div>
             )
-        }
+    
     }
 
     return(
             <div className="titles">
                 {/* {posts.map((e) => <p key={e.objectID}>{e.title}</p>)} */}
-                {posts.map(wrapPost)}
+                {arrayOfNews.map(wrapPost)}
             </div>
     );
 }

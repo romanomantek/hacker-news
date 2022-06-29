@@ -19,10 +19,12 @@ export default function Navbar(){
     };
 
     return(
-        <header>
-            <input type="text" onChange={search}></input>
-            <button>Search</button>
-        </header>
-        
+        <>
+            <header>
+                <input type="text" onChange={search}></input>
+                <button>Search</button>
+            </header>
+            <NewsList arrayOfNews={news} />
+        </>
     );
 }
