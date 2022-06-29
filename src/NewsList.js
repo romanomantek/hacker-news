@@ -1,23 +1,38 @@
 import React, { useState, useEffect } from 'react';
-import hackerNews from './hackerNews';
+import {getNews} from "./apiFetcher.js"
+// import hackerNews from './hackerNews';
 
-export default function NewsList(){
+export default function NewsList(arrayOfNews=[]){
      // useState for variable input of API
-    
-    const [posts, setPosts] = useState([]);
+    const [posts, setPosts] = useState([arrayOfNews]);
     
     useEffect(() => {
+        if(arrayOfNews!==[]){
+            getNews().then( e => setPosts(e))
+        } else {
+            setPosts(arrayOfNews);
+        }
+        
+        /* 
         const apiUrl = "http://hn.algolia.com/api/v1/search_by_date?tags=story";
         fetch(apiUrl)
-          .then((response) => response.json())
-          .then((resJson) => setPosts(resJson.hits))
-          .catch((err) => alert(`API load failed (${err})`));
+            .then((response) => response.json())
+            .then((resJson) => setPosts(resJson.hits))
+            .catch((err) => alert(`API load failed (${err})`));
+        */
     },[]);
     //const posts = hackerNews.hits;
-    const calcDays = (created_at) => {
+    const getExist = (created_at) => {
         const created = new Date(created_at);
         const today = new Date();
-        const oneDay = 1000 * 60 * 60 * 24;
+        const oneSec = 1000;
+        const oneMin = oneSec * 60;
+        const oneHour = oneMin * 60;
+        const oneDay = oneHour * 24;
+        const oneWeek = oneDay *7;
+        const oneMonth = oneDay * 30.5;
+        const oneYear = oneWeek * 52;
+        
         const diffInTime = today.getTime() - created.getTime();
         return  Math.round(diffInTime / oneDay);
     }
@@ -31,7 +46,7 @@ export default function NewsList(){
                     <p className="news">
                         <strong className="newsTitle"> {e.title}</strong>
                         <br />
-                        <small className="newsAuthor"> Author: {e.author} Exists: {calcDays(e.created_at)} days  <a className="newsUrl" href={e.url}> {hostname} </a></small>
+                        <small className="newsAuthor"> Author: {e.author} - Exists: {getExist(e.created_at)} <a className="newsUrl" href={e.url}> - {hostname} </a></small>
                     </p>
                 </div>
             )
