@@ -8,6 +8,10 @@ export default function NewsList({arrayOfNews=[]}){
     
     //getNews().then( e => setPosts(e))
     
+    // spezial calculator
+    const spCalc = (max,divider) => [floor(max/divider),((max/divider)-floor(max/divider))]
+
+
     //const posts = hackerNews.hits;
     const getExist = (created_at) => {
         const created = new Date(created_at);
@@ -21,6 +25,10 @@ export default function NewsList({arrayOfNews=[]}){
         const oneYear = oneWeek * 52;
         
         const diffInTime = today.getTime() - created.getTime();
+
+        const resYe = diffInTime>oneYear ? spCalc(diffInTime,oneYear) : 0;
+        const resMo = resYe === 0 ? diffInTime>oneMonth ? spCalc(diffInTime,oneMonth) : 0 : resYe
+
         return  Math.round(diffInTime / oneDay);
     }
     // wrap information of an object in p-tag
