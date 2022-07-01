@@ -1,6 +1,7 @@
 import React from 'react';
 
 export default function NewsList({arrayOfNews=[]}){
+    
     // spezial calculator
     const getInt = (max,divider) => [Math.floor(max/divider),((max/divider)-Math.floor(max/divider))]
 
@@ -34,7 +35,7 @@ export default function NewsList({arrayOfNews=[]}){
                 <p className="news">
                     <strong className="newsTitle"> {e.title}</strong>
                     <br />
-                    <small className="newsAuthor"> Author: {e.author} - Exists: {getExist(e.created_at)} <a className="newsUrl" href={e.url}> {hostname} </a></small>
+                    <small className="newsAuthor"> Author: {e.author} - Exists: {getExist(e.created_at)} days <a className="newsUrl" href={e.url}> {hostname} </a></small>
                 </p>
             </div>
         )
@@ -47,8 +48,8 @@ export default function NewsList({arrayOfNews=[]}){
     return(
             <div className="newsList">
                 {arrayOfNews.length === 0 ? nothingFound() :
-                 /* arrayOfNews[0] === {} ? */ arrayOfNews.map( news => wrapPost(news)) /* :
-                 <p>arrayOfNews</p> */}
+                 arrayOfNews[0] instanceof Object ? arrayOfNews.map( news => wrapPost(news)) :
+                 <p key="key_error">{arrayOfNews}</p>}
             </div>
     );
 }
