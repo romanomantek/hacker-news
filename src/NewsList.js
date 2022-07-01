@@ -47,8 +47,8 @@ export default function NewsList({arrayOfNews=[]}){
     return(
             <div className="newsList">
                 {arrayOfNews.length === 0 ? nothingFound() :
-                 arrayOfNews[0] === {} ? wrapPost(arrayOfNews) :
-                 arrayOfNews}
+                 /* arrayOfNews[0] === {} ? */ wrapPost(arrayOfNews) /* :
+                 <p>arrayOfNews</p> */}
             </div>
     );
 }
