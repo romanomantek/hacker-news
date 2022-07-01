@@ -1,11 +1,11 @@
 import React from 'react';
 
 export default function NewsList({arrayOfNews=[]}){
-    // console.log(arrayOfNews)
+    
     // spezial calculator
-    const spCalc = (max,divider) => [Math.floor(max/divider),((max/divider)-Math.floor(max/divider))]
+    const getInt = (max,divider) => [Math.floor(max/divider),((max/divider)-Math.floor(max/divider))]
 
-    //const posts = hackerNews.hits;
+    // Task: get better exist 
     const getExist = (created_at) => {
         const created = new Date(created_at);
         const today = new Date();
@@ -19,21 +19,22 @@ export default function NewsList({arrayOfNews=[]}){
         
         const diffInTime = today.getTime() - created.getTime();
 
-        const resYe = diffInTime>oneYear ? spCalc(diffInTime,oneYear) : 0;
-        const resMo = resYe === 0 ? diffInTime>oneMonth ? spCalc(diffInTime,oneMonth) : 0 : resYe
+        const resYe = diffInTime>oneYear ? getInt(diffInTime,oneYear) : 0;
+        const resMo = resYe === 0 ? diffInTime>oneMonth ? getInt(diffInTime,oneMonth) : 0 : resYe
 
         return  Math.round(diffInTime / oneDay);
     }
-    // wrap information of an object in p-tag
-    const wrapPost = (e) => {
-        const hostname = e.url ? new URL(e.url).hostname : "";
+
+    // wrap information of an object
+    const wrapPost = (newsObject) => {
+        const hostname = newsObject.url ? new URL(newsObject.url).hostname : "";
         // return wrapped information in a div
         return (
-            <div className="newsRow" key={e.objectID}>
+            <div className="newsRow" key={newsObject.objectID}>
                 <p className="news">
-                    <strong className="newsTitle"> {e.title}</strong>
+                    <strong className="newsTitle"> {newsObject.title}</strong>
                     <br />
-                    <small className="newsAuthor"> Author: {e.author} - Exists: {getExist(e.created_at)} <a className="newsUrl" href={e.url}> {hostname} </a></small>
+                    <small className="newsAuthor"> Author: {newsObject.author} - Exists: {getExist(newsObject.created_at)} <a className="newsUrl" href={newsObject.url}> {hostname} </a></small>
                 </p>
             </div>
         )
@@ -45,7 +46,9 @@ export default function NewsList({arrayOfNews=[]}){
 
     return(
             <div className="newsList">
-                {arrayOfNews.length === 0 ? nothingFound() : arrayOfNews[0] == {} ? wrapPost(arrayOfNews) : arrayOfNews}
+                {arrayOfNews.length === 0 ? nothingFound() :
+                 arrayOfNews[0] === {} ? wrapPost(arrayOfNews) :
+                 arrayOfNews}
             </div>
     );
 }

@@ -1,19 +1,25 @@
 import React, { useEffect, useState } from 'react';
 import NewsList from './NewsList';
-import { getNewsByAuthor, getNews } from "./apiFetcher.js"
+import { getNews, getNewsByAuthor, getNewsByText } from "./apiFetcher.js"
 
 export default function Navbar(){
     const [news, setNews] = useState([]);
-    const [input, setInput] = useState('');
-    const [radio, setRadio] = useState('fullText');
+    const [input, setInput] = useState("");
+    const [radio, setRadio] = useState("currentNews");
 
     useEffect(() => {
-/*      fetch(`http://hn.algolia.com/api/v1/search?query=${input}`)
-            .then((response) => response.json())
-            .then((data) => setNews(data.hits))
-            .catch((error) => console.log(`Oops, something went wrong. ${error}`)); */
-        getNews().then((e) => setNews(e));
-        getNewsByAuthor(input).then((e) => setNews(e));
+        
+        if (radio==="currentNews" || (radio!=="currentNews" && input==="")){
+            getNews().then( arrayOfNews => setNews(arrayOfNews));
+        } else if (radio==="fullText"){
+            getNewsByText(input).then( arrayOfNews => setNews(arrayOfNews));
+        } else if (radio==="author"){
+            getNewsByAuthor(input).then( arrayOfNews => setNews(arrayOfNews));
+        } else {
+            console.log(`useEffect Bug: Input = ${input} / Radio = ${radio})`)
+            setNews("Da ist wohl was Schief gelaufen");
+        }
+        
     
     }, [input])
    
@@ -36,7 +42,6 @@ export default function Navbar(){
             <div onChange={radioButtonClick}>
                 <input type="radio" name="radio" value="fullText" /> full Text
                 <input type="radio" name="radio" value="author" /> Author
-                <input type="radio" name="radio" value="url" /> URL
             </div>
             <NewsList arrayOfNews={news} />
         </>
