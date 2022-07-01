@@ -1,16 +1,9 @@
-import React, { useState, useEffect } from 'react';
-import {getNews} from "./apiFetcher.js"
-// import hackerNews from './hackerNews';
+import React from 'react';
 
 export default function NewsList({arrayOfNews=[]}){
-    console.log(arrayOfNews)
-    // useState for variable input of API
-    
-    //getNews().then( e => setPosts(e))
-    
+    // console.log(arrayOfNews)
     // spezial calculator
-    const spCalc = (max,divider) => [floor(max/divider),((max/divider)-floor(max/divider))]
-
+    const spCalc = (max,divider) => [Math.floor(max/divider),((max/divider)-Math.floor(max/divider))]
 
     //const posts = hackerNews.hits;
     const getExist = (created_at) => {
@@ -33,25 +26,26 @@ export default function NewsList({arrayOfNews=[]}){
     }
     // wrap information of an object in p-tag
     const wrapPost = (e) => {
-        
-            const hostname = e.url ? new URL(e.url).hostname : "";
-            // return wrapped information in a div
-            return (
-                <div className="newsRow" key={e.objectID}>
-                    <p className="news">
-                        <strong className="newsTitle"> {e.title}</strong>
-                        <br />
-                        <small className="newsAuthor"> Author: {e.author} - Exists: {getExist(e.created_at)} <a className="newsUrl" href={e.url}> {hostname} </a></small>
-                    </p>
-                </div>
-            )
-    
+        const hostname = e.url ? new URL(e.url).hostname : "";
+        // return wrapped information in a div
+        return (
+            <div className="newsRow" key={e.objectID}>
+                <p className="news">
+                    <strong className="newsTitle"> {e.title}</strong>
+                    <br />
+                    <small className="newsAuthor"> Author: {e.author} - Exists: {getExist(e.created_at)} <a className="newsUrl" href={e.url}> {hostname} </a></small>
+                </p>
+            </div>
+        )
     }
 
+    const nothingFound = () => <h1>Deine Suche hat nichts ergeben!</h1>
+
+    
+
     return(
-            <div className="titles">
-                {/* {posts.map((e) => <p key={e.objectID}>{e.title}</p>)} */}
-                {arrayOfNews.map(wrapPost)}
+            <div className="newsList">
+                {arrayOfNews.length === 0 ? nothingFound() : arrayOfNews[0] == {} ? wrapPost(arrayOfNews) : arrayOfNews}
             </div>
     );
 }
