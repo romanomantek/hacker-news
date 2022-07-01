@@ -3,18 +3,21 @@ import NewsList from './NewsList';
 import { getNews, getNewsByAuthor, getNewsByText } from "./apiFetcher.js"
 
 export default function Navbar(){
-    const [news, setNews] = useState([]);
+    const [news, setNews] = useState();
     const [input, setInput] = useState("");
     const [radio, setRadio] = useState("currentNews");
 
     useEffect(() => {
         
         if (radio==="currentNews" || (radio!=="currentNews" && input==="")){
-            getNews().then( arrayOfNews => setNews(arrayOfNews));
+            console.log("a")
+            getNews().then( (arrayOfNews) => setNews(arrayOfNews));
         } else if (radio==="fullText"){
-            getNewsByText(input).then( arrayOfNews => setNews(arrayOfNews));
+            console.log("b")
+            getNewsByText(input).then( (arrayOfNews) => setNews(arrayOfNews));
         } else if (radio==="author"){
-            getNewsByAuthor(input).then( arrayOfNews => setNews(arrayOfNews));
+            console.log("c")
+            getNewsByAuthor(input).then( (arrayOfNews) => setNews(arrayOfNews));
         } else {
             console.log(`useEffect Bug: Input = ${input} / Radio = ${radio})`)
             setNews("Da ist wohl was Schief gelaufen");

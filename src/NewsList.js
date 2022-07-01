@@ -1,7 +1,6 @@
 import React from 'react';
 
 export default function NewsList({arrayOfNews=[]}){
-    
     // spezial calculator
     const getInt = (max,divider) => [Math.floor(max/divider),((max/divider)-Math.floor(max/divider))]
 
@@ -26,15 +25,16 @@ export default function NewsList({arrayOfNews=[]}){
     }
 
     // wrap information of an object
-    const wrapPost = (newsObject) => {
-        const hostname = newsObject.url ? new URL(newsObject.url).hostname : "";
+    const wrapPost = (e) => {
+        const hostname = e.url ? new URL(e.url).hostname : "";
+        console.log(e)
         // return wrapped information in a div
         return (
-            <div className="newsRow" key={newsObject.objectID}>
+            <div className="newsRow" key={e.objectID}>
                 <p className="news">
-                    <strong className="newsTitle"> {newsObject.title}</strong>
+                    <strong className="newsTitle"> {e.title}</strong>
                     <br />
-                    <small className="newsAuthor"> Author: {newsObject.author} - Exists: {getExist(newsObject.created_at)} <a className="newsUrl" href={newsObject.url}> {hostname} </a></small>
+                    <small className="newsAuthor"> Author: {e.author} - Exists: {getExist(e.created_at)} <a className="newsUrl" href={e.url}> {hostname} </a></small>
                 </p>
             </div>
         )
@@ -47,7 +47,7 @@ export default function NewsList({arrayOfNews=[]}){
     return(
             <div className="newsList">
                 {arrayOfNews.length === 0 ? nothingFound() :
-                 /* arrayOfNews[0] === {} ? */ wrapPost(arrayOfNews) /* :
+                 /* arrayOfNews[0] === {} ? */ arrayOfNews.map( news => wrapPost(news)) /* :
                  <p>arrayOfNews</p> */}
             </div>
     );
