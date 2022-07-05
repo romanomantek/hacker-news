@@ -18,24 +18,28 @@ export default function NewsList({arrayOfNews=[]}){
         const oneYear = oneWeek * 52;
         
         const diffInTime = today.getTime() - created.getTime();
-
+        
         const resYe = diffInTime>oneYear ? getInt(diffInTime,oneYear) : 0;
         const resMo = resYe === 0 ? diffInTime>oneMonth ? getInt(diffInTime,oneMonth) : 0 : resYe
 
         return  Math.round(diffInTime / oneDay);
     }
-
+// url = "https://www.andererordner.domain.de/oaoidwaod"
+// new URL() (https.//) (hostname) (Argumente)
     // wrap information of an object
-    const wrapPost = (e) => {
-        const hostname = e.url ? new URL(e.url).hostname : "";
-        console.log(e)
+    const wrapPost = (o) => {
+        const hostname = o.url ? new URL(o.url).hostname : "";
+        const replacePatter = /(\w+)\.?(\w+)\.?(\w+)?\.(\w+)\.(\w+)/;
+        const shortHost = hostname.replace(replacePatter, "$4.$5")
+
+        // console.log(e)
         // return wrapped information in a div
         return (
-            <div className="newsRow" key={e.objectID}>
+            <div className="newsRow" key={o.objectID}>
                 <p className="news">
-                    <strong className="newsTitle"> {e.title}</strong>
+                    <strong className="newsTitle"> {o.title}</strong>
                     <br />
-                    <small className="newsAuthor"> Author: {e.author} - Exists: {getExist(e.created_at)} days <a className="newsUrl" href={e.url}> {hostname} </a></small>
+                    <small className="newsAuthor"> Author: {o.author} - Exists: {getExist(o.created_at)} days <a className="newsUrl" href={o.url}> {shortHost} </a></small>
                 </p>
             </div>
         )

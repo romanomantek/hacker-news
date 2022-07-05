@@ -8,22 +8,20 @@ export default function Navbar(){
     const [radio, setRadio] = useState("currentNews");
 
     useEffect(() => {
-        
+    
         if (radio==="currentNews" || (radio!=="currentNews" && input==="")){
-            console.log("a")
+            // console.log("a")
             getNews().then( (arrayOfNews) => setNews(arrayOfNews));
         } else if (radio==="fullText"){
-            console.log("b")
+            // console.log("b")
             getNewsByText(input).then( (arrayOfNews) => setNews(arrayOfNews));
         } else if (radio==="author"){
-            console.log("c")
+            // console.log("c")
             getNewsByAuthor(input).then( (arrayOfNews) => setNews(arrayOfNews));
         } else {
-            console.log(`useEffect Bug: Input = ${input} / Radio = ${radio})`)
+            // console.log(`useEffect Bug: Input = ${input} / Radio = ${radio})`)
             setNews("Da ist wohl was Schief gelaufen");
         }
-        
-    
     }, [input])
    
     const search = (event) =>{
